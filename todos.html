@@ -13,10 +13,10 @@
 </head>
 <body>
     <div id="app">
-        <!-- 为input的class绑定一个值 -->
+        <!-- 完善逻辑 -->
         <input type="text" name="" id="" v-model="value" v-bind:class='{empty: !count}'>
         <input type="button" value="发送" @click="send">
-        <div>
+        <div v-if="count">
             value的值是： {{ value }}
         </div>
         <div>字数： {{ count }}</div>
@@ -32,6 +32,10 @@
             },
             methods: {
                 send() {
+                    if(this.value === '') {
+                        alert('请输入内容');
+                        return;
+                    }
                     alert('发送成功！')
                     this.value = ''
                 }
