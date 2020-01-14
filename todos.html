@@ -6,46 +6,57 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vue todos</title>
     <style>
-        .empty {
-            border-color: red;
-        }
+    .completed {
+      text-decoration: line-through;
+    }
+ 
+    .selected {
+      color: red;
+    }
     </style>
 </head>
 <body>
-    <div id="app">
-        <!-- 完善逻辑 -->
-        <input type="text" name="" id="" v-model="value" v-bind:class='{empty: !count}'>
-        <input type="button" value="发送" @click="send">
-        <div v-if="count">
-            value的值是： {{ value }}
+    <div id="todo-app">
+        <div>
+          <input type="button" value="全部标为完成"/>
+          <input type="text" placeholder="添加 todo"/>
         </div>
-        <div>字数： {{ count }}</div>
-    </div>
+        <!-- todo list -->
+        <ul>
+          <li>
+            <span class="completed">学习 Vue</span>
+            <input type="button" value="标为完成">
+            <input type="button" value="删除">
+            <input type="text" value="编辑 todo..."/>
+          </li>
+          <li>
+            <span>整个牛项目</span>
+            <input type="button" value="标为完成">
+            <input type="button" value="删除">
+            <input type="text" value="编辑 todo..."/>
+          </li>
+          <li>
+            <span>迎娶白富美走上人生巅峰</span>
+            <input type="button" value="标为完成">
+            <input type="button" value="删除">
+            <input type="text" value="编辑 todo..."/>
+          </li>
+        </ul>
+        <!-- end todo list -->
+        <div>
+          <span>剩余 3 项未完成 ---</span>
+          <span>筛选：
+            <input type="button" class="selected" value="全部">
+            <input type="button" value="进行中">
+            <input type="button" value="已完成">
+            <input type="button" value="清除已完成">
+            <input type="button" value="清除全部">
+          </span>
+        </div>
+      </div>
     <script src="./node_modules/./vue/dist/vue.js"></script>
     <script>
-        var app = new Vue({
-            el: "#app",
-            data() {
-                return {
-                    value: ''
-                }
-            },
-            methods: {
-                send() {
-                    if(this.value === '') {
-                        alert('请输入内容');
-                        return;
-                    }
-                    alert('发送成功！')
-                    this.value = ''
-                }
-            },
-            computed: {
-                count() {
-                    return this.value.length
-                }
-            }
-        })
+ 
     </script>
 </body>
 </html>
