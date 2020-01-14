@@ -46,10 +46,10 @@
         <div>
           <span>剩余 <span style="font-weight: bold;">{{leftTodosCount}}</span> 项未完成 ---</span>
           <span>筛选：
-            <input type="button" class="selected" value="全部" @click="intention='all'">
-            <input type="button" value="进行中" @click="intention='ongoing'">
-            <input type="button" value="已完成" @click="intention='finished'">
-            <input type="button" value="清除已完成">
+            <input type="button" v-bind:class="{selected: intention === 'all'}" value="全部" @click="intention='all'">
+            <input type="button" :class="{selected: this.intention === 'ongoing'}" value="进行中" @click="intention='ongoing'">
+            <input type="button" :class="{selected: this.intention === 'finished'}" value="已完成" @click="intention='finished'">
+            <input type="button"  value="清除已完成">
             <input type="button" value="清除全部">
           </span>
         </div>
