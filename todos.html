@@ -28,7 +28,7 @@
         <ul>
             
             <li v-for="todo in filteredTodos" :key="todo.id">
-                <span v-bind:class="{completed: todo.completed}" @dbclick="editTodo(todo)">{{ todo.title }}</span>
+                <span v-bind:class="{completed: todo.completed}" >{{ todo.title }}</span>
                 <!-- 给函数传递一个参数，传递那个TODO对象，从而vue就知道我们要操作的对象了 -->
                 <input type="button" value="标为完成" v-if="!todo.completed" @click="markAsComplete(todo)">
                 <input type="button" value="标未完成" v-else @click="markAsUnComplete(todo)">
@@ -123,13 +123,16 @@
                     hasRemovedTodo() {
                       return !!this.removedTodos
                     },
+                    leftTodos() {
+                      return this.todos.filter(todo => !todo.completed);
+                    },
                     leftTodosCount() {
-                      return this.todos.filter(todo => !todo.completed).length
+                      return this.leftTodos.length
                     },
                     filteredTodos() {
                       // filer返回符合条件的todos
                       if (this.intention === 'ongoing') {
-                        return this.todos.filter(todo => !todo.completed)
+                        return this.leftTodos
                       } else if(this.intention === 'finished') {
                         return this.todos.filter(todo => todo.completed)
                       } else {
