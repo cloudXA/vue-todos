@@ -40,7 +40,7 @@
         </ul>
         <!-- end todo list -->
         <div>
-          <span>剩余 3 项未完成 ---</span>
+          <span>剩余 {{leftTodosCount}} 项未完成 ---</span>
           <span>筛选：
             <input type="button" class="selected" value="全部">
             <input type="button" value="进行中">
@@ -118,6 +118,10 @@
                     // 只有存在被删除的TODO时，按钮才会被渲染
                     hasRemovedTodo() {
                       return !!this.removedTodos
+                    },
+                    // 根据vue已有的数据计算新的数据，计算属性典型的应用场景
+                    leftTodosCount() {
+                      return this.todos.filter(todo => !todo.completed).length
                     }
                 },
 
