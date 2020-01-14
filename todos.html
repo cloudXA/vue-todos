@@ -9,22 +9,27 @@
 <body>
     <div id="app">
         <input type="text" name="" id="" v-model="value">
-        <input type="button" value="发送">
+        <input type="button" value="发送" @click="send">
         <div>
             value的值是： {{ value }}
         </div>
     </div>
     <script src="./node_modules/./vue/dist/vue.js"></script>
     <script>
-        // v-model指令的作用是将input元素value属性的值和我们创建的vue对象的
-        // value的值进行绑定
         var app = new Vue({
             el: "#app",
             data() {
                 return {
                     value: ''
                 }
-            }
+            },
+            // 点击发送按钮后显示一个发送成功的消息，然后将value的值清空
+            methods: {
+                send() {
+                    alert('发送成功！')
+                    this.value = ''
+                }
+            },
         })
     </script>
 </body>
