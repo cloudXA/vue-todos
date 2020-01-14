@@ -49,8 +49,8 @@
             <input type="button" v-bind:class="{selected: intention === 'all'}" value="全部" @click="intention='all'">
             <input type="button" :class="{selected: this.intention === 'ongoing'}" value="进行中" @click="intention='ongoing'">
             <input type="button" :class="{selected: this.intention === 'finished'}" value="已完成" @click="intention='finished'">
-            <input type="button"  value="清除已完成">
-            <input type="button" value="清除全部">
+            <input type="button"  value="清除已完成" @click="clearComleted">
+            <input type="button" value="清除全部" @click="clearAll">
           </span>
         </div>
       </div>
@@ -106,7 +106,16 @@
                     let restored = this.removedTodos.todo;
                     this.todos.splice(pos, 0, restored);
                     this.removedTodos = null;
+                },
+                clearComleted() {
+                  console.log(this.todos);
+                  console.log(this.todos.filter(todo => todo.completed))
+                  this.todos = this.todos.filter(todo => !todo.completed)
+                },
+                clearAll() {
+                  this.todos = []
                 }
+
             },
             // 局部自定义指令
             directives: {
