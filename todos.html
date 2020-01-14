@@ -18,7 +18,7 @@
 <body>
     <div id="todo-app">
         <div>
-          <input type="button" value="全部标为完成"/>
+          <input type="button" value="全部标为完成" @click="markAllAsCompleted"/>
           <input type="text" placeholder="添加 todo" @keyup.enter="addTodo" v-model="newTodoTitle" v-bind:class="{empty: flag}">
           <span v-if="flag" style="color: red;">请输入字符</span>
         </div>
@@ -81,6 +81,13 @@
                 },
                 markAsUnComplete(todo) {
                   todo.completed = false;
+                },
+                markAllAsCompleted() {
+                  this.todos.map((todo) => {
+                    if(!todo.completed) {
+                      todo.completed = true
+                    }
+                  })
                 },
                 removeTodo(todo) {
                     let pos = this.todos.indexOf(todo);
