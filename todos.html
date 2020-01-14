@@ -29,7 +29,7 @@
                 <input type="button" value="标为完成" v-if="!todo.completed" @click="markAsComplete(todo)">
                 <input type="button" value="标未完成" v-else @click="markAsUnComplete(todo)">
 
-                <input type="button" value="删除">
+                <input type="button" value="删除" @click="removeTodo(todo)">
                 <input type="text" placeholder="添加todo...">
             </li>
         </ul>
@@ -74,6 +74,11 @@
                 },
                 markAsUnComplete(todo) {
                   todo.completed = false;
+                },
+                removeTodo(todo) {
+                  if (window.confirm('你要删除吗')) {
+                    this.todos.splice(this.todos.indexOf(todo), 1)
+                  } 
                 }
             },
             computed: {
