@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vue todos</title>
+    <style>
+        .empty {
+            border-color: red;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        <input type="text" name="" id="" v-model="value">
+        <!-- 为input的class绑定一个值 -->
+        <input type="text" name="" id="" v-model="value" v-bind:class='{empty: !count}'>
         <input type="button" value="发送" @click="send">
         <div>
             value的值是： {{ value }}
@@ -30,7 +36,6 @@
                     this.value = ''
                 }
             },
-            // 添加计算属性
             computed: {
                 count() {
                     return this.value.length
