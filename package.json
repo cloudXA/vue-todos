@@ -1,0 +1,11 @@
+{
+  "name": "vue-todo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:cloudXA/vue-todos.git",
+  "author": "cloudXA <zming794@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^2.6.11"
+  }
+}
