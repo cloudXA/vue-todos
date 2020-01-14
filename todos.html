@@ -33,7 +33,10 @@
                 <!-- 无法解决删除，保留撤销按钮的权利 -->
                 <input type="text" placeholder="添加todo...">
             </li>
-            <input type="button" value="撤销" v-if="removed" @click="revocations">
+            <div v-if="hasRemovedTodo">
+              <br>
+              <input type="button" value="撤销" @click="revocations()">
+            </div>
 
         </ul>
         <!-- end todo list -->
@@ -61,7 +64,7 @@
                     newTodoTitle: '',
                     flag: false,
                     removed: false,
-                    removedTodos: []
+                    removedTodos: null
                 }
             },
             methods: {
@@ -81,17 +84,31 @@
                   todo.completed = false;
                 },
                 removeTodo(todo) {
-                    this.removedTodos.push(this.todos.splice(this.todos.indexOf(todo), 1))
-                    this.removed = true;
+                    // 获取被删除的位置
+                    let pos = this.todos.indexOf(todo);
+                    // 获取被删除的元素
+                    this.removedTodos = {
+                      pos: pos,
+                      todo: this.todos.splice(pos,1)[0]
+                    }
                 },
                 revocations() {
-                    this.todos.push(this.removedTodos[0]);
-                    this.removed = true;
+                  // 获取移除对象中的pos键对应的值
+                    let pos = this.removedTodos.pos;
+                    // 移除对象中的TODO
+                    let restored = this.removedTodos.todo;
+                    // 在指定的位置添加删除的元素，在哪被删除的，在哪将会被添加
+                    this.todos.splice(pos, 0, restored);
+                    this.removedTodos = null;
                 }
             },
             computed: {
                     count() {
                         return this.newTodoTitle.length
+                    },
+                    // 只有存在被删除的TODO时，按钮才会被渲染
+                    hasRemovedTodo() {
+                      return !!this.removedTodos
                     }
                 },
             
