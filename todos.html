@@ -30,8 +30,11 @@
                 <input type="button" value="标未完成" v-else @click="markAsUnComplete(todo)">
 
                 <input type="button" value="删除" @click="removeTodo(todo)">
+                <!-- 无法解决删除，保留撤销按钮的权利 -->
                 <input type="text" placeholder="添加todo...">
             </li>
+            <input type="button" value="撤销" v-if="removed" @click="revocations">
+
         </ul>
         <!-- end todo list -->
         <div>
@@ -57,6 +60,8 @@
                     ],
                     newTodoTitle: '',
                     flag: false,
+                    removed: false,
+                    removedTodos: []
                 }
             },
             methods: {
@@ -76,9 +81,12 @@
                   todo.completed = false;
                 },
                 removeTodo(todo) {
-                  if (window.confirm('你要删除吗')) {
-                    this.todos.splice(this.todos.indexOf(todo), 1)
-                  } 
+                    this.removedTodos.push(this.todos.splice(this.todos.indexOf(todo), 1))
+                    this.removed = true;
+                },
+                revocations() {
+                    this.todos.push(this.removedTodos[0]);
+                    this.removed = true;
                 }
             },
             computed: {
