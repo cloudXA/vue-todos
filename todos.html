@@ -26,8 +26,9 @@
             <li v-for="todo in todos" :key="todo.id">
                 <span v-bind:class="{completed: todo.completed}">{{ todo.title }}</span>
                 <!-- 给函数传递一个参数，传递那个TODO对象，从而vue就知道我们要操作的对象了 -->
-                <input type="button" value="未完成" v-show="completed" @click="markAsUnComplete(todo)">
-                <input type="button" value="标记为完成" @click="markAsComplete(todo)" v-show="!completed">
+                <input type="button" value="标为完成" v-if="!todo.completed" @click="markAsComplete(todo)">
+                <input type="button" value="标未完成" v-else @click="markAsUnComplete(todo)">
+
                 <input type="button" value="删除">
                 <input type="text" placeholder="添加todo...">
             </li>
@@ -56,7 +57,6 @@
                     ],
                     newTodoTitle: '',
                     flag: false,
-                    completed: ''
                 }
             },
             methods: {
@@ -71,11 +71,9 @@
                 },
                 markAsComplete(todo) {
                   todo.completed = true;
-                  this.completed = todo.completed;
                 },
                 markAsUnComplete(todo) {
                   todo.completed = false;
-                  this.completed = todo.completed;
                 }
             },
             computed: {
