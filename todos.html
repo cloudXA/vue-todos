@@ -8,15 +8,21 @@
 </head>
 <body>
     <div id="app">
-        {{message}}
+        <input type="text" name="" id="" v-model="value">
+        <input type="button" value="发送">
+        <div>
+            value的值是： {{ value }}
+        </div>
     </div>
     <script src="./node_modules/./vue/dist/vue.js"></script>
     <script>
+        // v-model指令的作用是将input元素value属性的值和我们创建的vue对象的
+        // value的值进行绑定
         var app = new Vue({
             el: "#app",
             data() {
                 return {
-                    message: "hello Vue!"
+                    value: ''
                 }
             }
         })
