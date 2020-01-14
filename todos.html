@@ -30,8 +30,7 @@
                 <input type="button" value="标未完成" v-else @click="markAsUnComplete(todo)">
 
                 <input type="button" value="删除" @click="removeTodo(todo)">
-                <!-- 无法解决删除，保留撤销按钮的权利 -->
-                <input type="text" placeholder="添加todo...">
+                <input type="text" placeholder="编辑todo..." v-focus="true"  v-model="todo.title" @keyup.enter="editDone(todo)" @keyup.esc="cancelEdit(todo)">
             </li>
             <div v-if="hasRemovedTodo">
               <br>
@@ -84,23 +83,26 @@
                   todo.completed = false;
                 },
                 removeTodo(todo) {
-                    // 获取被删除的位置
                     let pos = this.todos.indexOf(todo);
-                    // 获取被删除的元素
                     this.removedTodos = {
                       pos: pos,
                       todo: this.todos.splice(pos,1)[0]
                     }
                 },
                 revocations() {
-                  // 获取移除对象中的pos键对应的值
                     let pos = this.removedTodos.pos;
-                    // 移除对象中的TODO
                     let restored = this.removedTodos.todo;
-                    // 在指定的位置添加删除的元素，在哪被删除的，在哪将会被添加
                     this.todos.splice(pos, 0, restored);
                     this.removedTodos = null;
                 }
+            },
+            // 局部自定义指令
+            directives: {
+              focus: {
+                inserted: function(el) {
+                  el.focus()
+                }
+              }
             },
             computed: {
                     count() {
@@ -111,6 +113,7 @@
                       return !!this.removedTodos
                     }
                 },
+
             
             
         })
