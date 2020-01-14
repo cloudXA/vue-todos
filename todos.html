@@ -10,8 +10,8 @@
       text-decoration: line-through;
     }
  
-    .selected {
-      color: red;
+    .empty {
+        border-color: red;
     }
     </style>
 </head>
@@ -19,14 +19,17 @@
     <div id="todo-app">
         <div>
           <input type="button" value="全部标为完成"/>
-          <input type="text" placeholder="添加 todo"/>
+          <!-- 使用v-model指令，将input的value值和vue的实例绑定 -->
+        <!-- 监听键盘敲击回车事件，添加修饰符 -->
+          <input type="text" placeholder="添加 todo" @keyup.enter="addTodo" v-model="newTodoTitle" v-bind:class="{empty: flag}">
+          <span v-if="flag" style="color: red;">请输入字符</span>
         </div>
         <ul>
             <li v-for="todo in todos" :key="todo.id">
                 <span>{{ todo.title }}</span>
                 <input type="button" value="标记为完成">
                 <input type="button" value="删除">
-                <input type="text" name="" id="" value="编辑TODO...">
+                <input type="text" placeholder="添加todo...">
             </li>
         </ul>
         <!-- end todo list -->
@@ -43,17 +46,36 @@
       </div>
     <script src="./node_modules/./vue/dist/vue.js"></script>
     <script>
+        let id = 0;
         var app = new Vue({
             el: "#todo-app",
             data() {
                 return {
                     todos: [
-                        { id: 0, title: '学习Vue'},
-                        { id: 1, title: '整个牛项目'},
-                        { id: 2, title: '赢取白富美走上人生巅峰'}
-                    ]
+                        
+                    ],
+                    newTodoTitle: '',
+                    flag: false //增加一个检查空值的标志
                 }
             },
+            // enter之后，检查为空时，标识符设为true， 不为空时，标识符设为false
+            methods: {
+                addTodo() {
+                    if(this.count === 0) {
+                        this.flag = true;
+                        return;
+                    }
+                    this.todos.push({id: id++, title: this.newTodoTitle});
+                    this.newTodoTitle = '';
+                    this.flag = false;
+                }
+            },
+            computed: {
+                    count() {
+                        return this.newTodoTitle.length
+                    }
+                },
+            
             
         })
     </script>
