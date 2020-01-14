@@ -19,15 +19,15 @@
     <div id="todo-app">
         <div>
           <input type="button" value="全部标为完成"/>
-          <!-- 使用v-model指令，将input的value值和vue的实例绑定 -->
-        <!-- 监听键盘敲击回车事件，添加修饰符 -->
           <input type="text" placeholder="添加 todo" @keyup.enter="addTodo" v-model="newTodoTitle" v-bind:class="{empty: flag}">
           <span v-if="flag" style="color: red;">请输入字符</span>
         </div>
         <ul>
             <li v-for="todo in todos" :key="todo.id">
-                <span>{{ todo.title }}</span>
-                <input type="button" value="标记为完成">
+                <span v-bind:class="{completed: todo.completed}">{{ todo.title }}</span>
+                <!-- 给函数传递一个参数，传递那个TODO对象，从而vue就知道我们要操作的对象了 -->
+                <input type="button" value="未完成" v-show="completed" @click="markAsUnComplete(todo)">
+                <input type="button" value="标记为完成" @click="markAsComplete(todo)" v-show="!completed">
                 <input type="button" value="删除">
                 <input type="text" placeholder="添加todo...">
             </li>
@@ -55,19 +55,27 @@
                         
                     ],
                     newTodoTitle: '',
-                    flag: false //增加一个检查空值的标志
+                    flag: false,
+                    completed: ''
                 }
             },
-            // enter之后，检查为空时，标识符设为true， 不为空时，标识符设为false
             methods: {
                 addTodo() {
                     if(this.count === 0) {
                         this.flag = true;
                         return;
                     }
-                    this.todos.push({id: id++, title: this.newTodoTitle});
+                    this.todos.push({id: id++, title: this.newTodoTitle, completed: false});
                     this.newTodoTitle = '';
                     this.flag = false;
+                },
+                markAsComplete(todo) {
+                  todo.completed = true;
+                  this.completed = todo.completed;
+                },
+                markAsUnComplete(todo) {
+                  todo.completed = false;
+                  this.completed = todo.completed;
                 }
             },
             computed: {
