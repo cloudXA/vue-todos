@@ -21,7 +21,8 @@
 <body>
     <div id="todo-app">
         <div>
-          <input type="button" value="全部标为完成" @click="markAllAsCompleted"/>
+          <!-- 剩余的未完成的项目数为0时，隐藏 -->
+          <input type="button" value="全部标为完成" @click="markAllAsCompleted" v-if="leftTodosCount"/>
           <input type="text" placeholder="添加 todo" @keyup.enter="addTodo" v-model="newTodoTitle" v-bind:class="{empty: flag}">
           <span v-if="flag" style="color: red;">请输入字符</span>
         </div>
@@ -43,13 +44,16 @@
 
         </ul>
         <!-- end todo list -->
-        <div>
-          <span>剩余 <span style="font-weight: bold;">{{leftTodosCount}}</span> 项未完成 ---</span>
-          <span>筛选：
+        <div >
+
+          <span v-if="leftTodosCount">剩余 <span style="font-weight: bold;">{{leftTodosCount}}</span> 项未完成 ---</span>
+          <span v-else-if="leftTodosCount = '0'">全部完成，你真是太优秀了</span>
+          <span v-else>添加我的第一个todo</span>
+          <span v-if="todos.length">筛选：
             <input type="button" v-bind:class="{selected: intention === 'all'}" value="全部" @click="intention='all'">
-            <input type="button" :class="{selected: this.intention === 'ongoing'}" value="进行中" @click="intention='ongoing'">
-            <input type="button" :class="{selected: this.intention === 'finished'}" value="已完成" @click="intention='finished'">
-            <input type="button"  value="清除已完成" @click="clearComleted">
+            <input v-if="leftTodosCount" type="button" :class="{selected: this.intention === 'ongoing'}" value="进行中" @click="intention='ongoing'">
+            <input v-if="completedTodosCount" type="button" :class="{selected: this.intention === 'finished'}" value="已完成" @click="intention='finished'">
+            <input v-if="completedTodosCount" type="button"  value="清除已完成" @click="clearComleted">
             <input type="button" value="清除全部" @click="clearAll">
           </span>
         </div>
@@ -138,12 +142,20 @@
                     leftTodosCount() {
                       return this.leftTodos.length
                     },
+                    // 已经完成
+                    completedTodos() {
+                      return this.todos.filter(todo => todo.completed)
+                    },
+                    // 完成之数量
+                    completedTodosCount() {
+                      return this.completedTodos.length;
+                    },
                     filteredTodos() {
                       // filer返回符合条件的todos
                       if (this.intention === 'ongoing') {
                         return this.leftTodos
                       } else if(this.intention === 'finished') {
-                        return this.todos.filter(todo => todo.completed)
+                        return this.completedTodos
                       } else {
                         return this.todos;
                       }
